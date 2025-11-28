@@ -1,9 +1,11 @@
 
+
 'use client';
 
 import { campaigns } from '@/lib/mock-data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Progress } from '@/components/ui/progress';
 import CountdownTimer from '@/components/countdown-timer';
@@ -250,7 +252,9 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
                     <AvatarFallback>{campaign.creator.substring(2, 4).toUpperCase()}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-mono text-sm">{truncateAddress(campaign.creator)}</p>
+                    <Button variant="link" className="p-0 h-auto" asChild>
+                      <Link href={`/creators/${campaign.creator}`} className="font-mono text-sm">{truncateAddress(campaign.creator)}</Link>
+                    </Button>
                     <p className="text-xs text-muted-foreground flex items-center gap-1"><Wallet className="h-3 w-3" /> Verified Creator</p>
                   </div>
                 </div>
