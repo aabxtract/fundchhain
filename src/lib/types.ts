@@ -1,3 +1,11 @@
+
+export interface RewardTier {
+  id: string;
+  title: string;
+  description: string;
+  pledgeAmount: number;
+}
+
 export interface CampaignUpdate {
   id: string;
   title: string;
@@ -25,4 +33,5 @@ export interface Campaign {
   category: 'Tech' | 'Art' | 'Education' | 'Games';
   updates?: CampaignUpdate[];
   comments?: CampaignComment[];
+  rewards?: RewardTier[];
 }

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { campaigns } from '@/lib/mock-data';
@@ -8,7 +9,7 @@ import { Progress } from '@/components/ui/progress';
 import CountdownTimer from '@/components/countdown-timer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Wallet, Send, MessageSquare, Rss, Loader2 } from 'lucide-react';
+import { Wallet, Send, MessageSquare, Rss, Loader2, Gift } from 'lucide-react';
 import CampaignActions from '@/components/campaign-actions';
 import SocialShareButtons from '@/components/social-share-buttons';
 import { Separator } from '@/components/ui/separator';
@@ -19,6 +20,10 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
+import RewardTiers from '@/components/reward-tiers';
+import { DonateDialog } from '@/components/donate-dialog';
+import { RewardTier } from '@/lib/types';
+
 
 export default function CampaignDetailsPage({ params }: { params: { id: string } }) {
   // In a real app, you would fetch a single campaign, but here we find it.
@@ -32,6 +37,8 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
   const { isConnected, address } = useWallet();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [comment, setComment] = useState('');
+  const [isDonateOpen, setIsDonateOpen] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<RewardTier | null>(null);
 
   const campaignImage = PlaceHolderImages.find((img) => img.id === campaign.image);
   const progress = Math.min((campaign.amountRaised / campaign.goal) * 100, 100);
@@ -59,7 +66,18 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
   // In a real app, this would be the absolute URL
   const campaignUrl = `/campaigns/${campaign.id}`;
 
+  const handleTierSelect = (tier: RewardTier) => {
+    setSelectedTier(tier);
+    setIsDonateOpen(true);
+  };
+  
+  const handleGenericDonate = () => {
+    setSelectedTier(null);
+    setIsDonateOpen(true);
+  };
+
   return (
+    <>
     <div className="container mx-auto max-w-6xl px-4 py-8">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
         <div className="md:col-span-3">
@@ -81,8 +99,11 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
           </div>
           
           <Tabs defaultValue="about" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="about">About</TabsTrigger>
+               <TabsTrigger value="rewards">
+                <Gift className="mr-2 h-4 w-4" /> Rewards
+              </TabsTrigger>
               <TabsTrigger value="updates">
                 <Rss className="mr-2 h-4 w-4" /> Updates
               </TabsTrigger>
@@ -99,6 +120,9 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
                   <p className="text-muted-foreground whitespace-pre-wrap">{campaign.description}</p>
                 </CardContent>
               </Card>
+            </TabsContent>
+             <TabsContent value="rewards" className="mt-4">
+              <RewardTiers campaign={campaign} onSelectTier={handleTierSelect} />
             </TabsContent>
             <TabsContent value="updates" className="mt-4">
               <Card>
@@ -210,7 +234,7 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
                 </div>
               </div>
               
-              <CampaignActions campaign={campaign} />
+              <CampaignActions campaign={campaign} onGenericDonate={handleGenericDonate} />
 
               <Separator className="my-6" />
 
@@ -236,5 +260,12 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
         </div>
       </div>
     </div>
+    <DonateDialog 
+        open={isDonateOpen}
+        onOpenChange={setIsDonateOpen}
+        campaign={campaign}
+        selectedTier={selectedTier}
+      />
+    </>
   );
 }

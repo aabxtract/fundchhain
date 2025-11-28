@@ -1,3 +1,4 @@
+
 import { addDays, addHours, subDays, subHours } from 'date-fns';
 import type { Campaign } from './types';
 
@@ -20,6 +21,11 @@ export const campaigns: Campaign[] = [
     comments: [
         { id: 'c1-1', author: '0x...aBcDeF', comment: 'This is revolutionary! Can\'t wait to see the alpha.', timestamp: subHours(new Date(), 20).toISOString() },
         { id: 'c1-2', author: '0x...123456', comment: 'Happy to be a backer. How can I contribute to the code?', timestamp: subHours(new Date(), 10).toISOString() },
+    ],
+    rewards: [
+      { id: 'r1-1', title: 'Bronze Supporter NFT', description: 'A unique NFT acknowledging your early support.', pledgeAmount: 0.1 },
+      { id: 'r1-2', title: 'Silver Contributor NFT', description: 'Receive a special edition NFT and early access to the alpha.', pledgeAmount: 0.5 },
+      { id: 'r1-3', title: 'Gold Partner NFT', description: 'A rare animated NFT, alpha access, and your name in the genesis block.', pledgeAmount: 2 },
     ]
   },
   {
@@ -32,7 +38,11 @@ export const campaigns: Campaign[] = [
     deadline: addHours(new Date(), 48).toISOString(),
     completed: false,
     image: 'campaign-2',
-    category: 'Art'
+    category: 'Art',
+    rewards: [
+      { id: 'r2-1', title: 'Founder Token', description: 'An NFT that grants you a permanent "Founder" role in our Discord.', pledgeAmount: 0.05 },
+      { id: 'r2-2', title: 'First Exhibit Access', description: 'An NFT that acts as a VIP pass to our opening exhibit.', pledgeAmount: 0.25 },
+    ]
   },
   {
     id: '3',

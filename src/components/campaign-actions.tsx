@@ -1,19 +1,20 @@
+
 'use client';
 
 import { useState } from 'react';
 import { useWallet } from '@/contexts/wallet-context';
 import type { Campaign } from '@/lib/types';
 import { Button } from './ui/button';
-import { DonateDialog } from './donate-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { Terminal } from 'lucide-react';
 
 interface CampaignActionsProps {
   campaign: Campaign;
+  onGenericDonate: () => void;
 }
 
-export default function CampaignActions({ campaign }: CampaignActionsProps) {
+export default function CampaignActions({ campaign, onGenericDonate }: CampaignActionsProps) {
   const { isConnected, address, connectWallet } = useWallet();
   const { toast } = useToast();
   const [isWithdrawing, setIsWithdrawing] = useState(false);
@@ -74,5 +75,9 @@ export default function CampaignActions({ campaign }: CampaignActionsProps) {
     }
   }
 
-  return <DonateDialog campaign={campaign} />;
+  return (
+     <Button onClick={onGenericDonate} className="w-full text-lg py-6">
+      Back this project
+    </Button>
+  );
 }
