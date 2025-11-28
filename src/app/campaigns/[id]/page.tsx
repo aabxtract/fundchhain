@@ -8,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Wallet } from 'lucide-react';
 import CampaignActions from '@/components/campaign-actions';
+import SocialShareButtons from '@/components/social-share-buttons';
+import { Separator } from '@/components/ui/separator';
 
 export default function CampaignDetailsPage({ params }: { params: { id: string } }) {
   const campaign = campaigns.find((c) => c.id === params.id);
@@ -21,6 +23,9 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
   const isExpired = new Date(campaign.deadline) < new Date();
   
   const truncateAddress = (addr: string) => `${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}`;
+
+  // In a real app, this would be the absolute URL
+  const campaignUrl = `/campaigns/${campaign.id}`;
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-8">
@@ -75,6 +80,13 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
               </div>
               
               <CampaignActions campaign={campaign} />
+
+              <Separator className="my-6" />
+
+              <div className="space-y-4 text-center">
+                <h3 className="font-semibold text-sm text-muted-foreground">Share this campaign</h3>
+                <SocialShareButtons campaignTitle={campaign.title} campaignUrl={campaignUrl} />
+              </div>
 
               <div className="mt-6 border-t pt-4">
                 <h3 className="font-semibold text-sm mb-2">Creator</h3>
