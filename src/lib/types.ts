@@ -1,3 +1,17 @@
+export interface CampaignUpdate {
+  id: string;
+  title: string;
+  content: string;
+  timestamp: string;
+}
+
+export interface CampaignComment {
+    id: string;
+    author: string;
+    comment: string;
+    timestamp: string;
+}
+
 export interface Campaign {
   id: string;
   creator: string;
@@ -9,4 +23,6 @@ export interface Campaign {
   completed: boolean;
   image: string;
   category: 'Tech' | 'Art' | 'Education' | 'Games';
+  updates?: CampaignUpdate[];
+  comments?: CampaignComment[];
 }

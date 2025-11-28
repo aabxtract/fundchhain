@@ -1,4 +1,4 @@
-import { addDays, addHours, subDays } from 'date-fns';
+import { addDays, addHours, subDays, subHours } from 'date-fns';
 import type { Campaign } from './types';
 
 export const campaigns: Campaign[] = [
@@ -12,7 +12,15 @@ export const campaigns: Campaign[] = [
     deadline: addDays(new Date(), 30).toISOString(),
     completed: false,
     image: 'campaign-1',
-    category: 'Tech'
+    category: 'Tech',
+    updates: [
+        { id: 'u1-1', title: 'Project Kick-off!', content: 'We\'ve officially started development. The team is excited and we\'re making great progress on the core protocol.', timestamp: subDays(new Date(), 5).toISOString() },
+        { id: 'u1-2', title: 'Alpha version coming soon', content: 'We\'re putting the finishing touches on our internal alpha. We expect to release it for testing to early backers in the next few weeks.', timestamp: subDays(new Date(), 1).toISOString() },
+    ],
+    comments: [
+        { id: 'c1-1', author: '0x...aBcDeF', comment: 'This is revolutionary! Can\'t wait to see the alpha.', timestamp: subHours(new Date(), 20).toISOString() },
+        { id: 'c1-2', author: '0x...123456', comment: 'Happy to be a backer. How can I contribute to the code?', timestamp: subHours(new Date(), 10).toISOString() },
+    ]
   },
   {
     id: '2',
