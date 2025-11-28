@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "Abstract futuristic digital art",
+      "imageUrl": "https://images.unsplash.com/photo-1653549892920-8c333905ca3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmdXR1cmlzdGljJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzY0MzE0NzU4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic abstract"
+    },
+    {
+      "id": "campaign-1",
+      "description": "A person working on a futuristic gadget",
+      "imageUrl": "https://images.unsplash.com/photo-1563884072595-24a1d9dd5647?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0ZWNoJTIwZ2FkZ2V0fGVufDB8fHx8MTc2NDI2ODQzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tech gadget"
+    },
+    {
+      "id": "campaign-2",
+      "description": "Digital art being created on a tablet",
+      "imageUrl": "https://images.unsplash.com/photo-1634320714682-ae8b9c9cee60?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkaWdpdGFsJTIwYXJ0fGVufDB8fHx8MTc2NDMwNzE2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "digital art"
+    },
+    {
+      "id": "campaign-3",
+      "description": "A group of students collaborating on a project",
+      "imageUrl": "https://images.unsplash.com/photo-1761250246894-ee2314939662?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxlZHVjYXRpb24lMjBjb2xsYWJvcmF0aW9ufGVufDB8fHx8MTc2NDM0NTg2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "education collaboration"
+    },
+    {
+      "id": "campaign-4",
+      "description": "A virtual reality headset",
+      "imageUrl": "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx2ciUyMGhlYWRzZXR8ZW58MHx8fHwxNzY0MjY1MjM0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "vr headset"
+    },
+    {
+      "id": "campaign-5",
+      "description": "A person painting on a canvas",
+      "imageUrl": "https://images.unsplash.com/photo-1583119912267-cc97c911e416?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhcnQlMjBwYWludGluZ3xlbnwwfHx8fDE3NjQzMDg1OTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "art painting"
+    },
+    {
+      "id": "campaign-6",
+      "description": "Solar panels in a field",
+      "imageUrl": "https://images.unsplash.com/photo-1515344905723-babc01aac23d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyZW5ld2FibGUlMjBlbmVyZ3l8ZW58MHx8fHwxNzY0MzQ1ODYxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "renewable energy"
+    }
+  ]
 }
