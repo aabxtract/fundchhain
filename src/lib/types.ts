@@ -1,5 +1,13 @@
 
 
+export interface Milestone {
+    id: string;
+    title: string;
+    description: string;
+    targetDate: string;
+    status: 'Pending' | 'In Progress' | 'Completed';
+}
+
 export interface RewardTier {
   id: string;
   title: string;
@@ -35,4 +43,5 @@ export interface Campaign {
   updates?: CampaignUpdate[];
   comments?: CampaignComment[];
   rewards?: RewardTier[];
+  milestones?: Milestone[];
 }

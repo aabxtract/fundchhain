@@ -26,6 +26,11 @@ export const campaigns: Campaign[] = [
       { id: 'r1-1', title: 'Bronze Supporter NFT', description: 'A unique NFT acknowledging your early support.', pledgeAmount: 0.1 },
       { id: 'r1-2', title: 'Silver Contributor NFT', description: 'Receive a special edition NFT and early access to the alpha.', pledgeAmount: 0.5 },
       { id: 'r1-3', title: 'Gold Partner NFT', description: 'A rare animated NFT, alpha access, and your name in the genesis block.', pledgeAmount: 2 },
+    ],
+    milestones: [
+        { id: 'm1-1', title: 'Protocol Whitepaper', description: 'Publish the technical whitepaper detailing the network architecture.', targetDate: addDays(new Date(), 15).toISOString(), status: 'In Progress' },
+        { id: 'm1-2', title: 'Testnet Launch', description: 'Deploy the first public testnet for developers to experiment with.', targetDate: addDays(new Date(), 45).toISOString(), status: 'Pending' },
+        { id: 'm1-3', title: 'Mainnet Launch', description: 'Full public launch of the Decentralized AI Network.', targetDate: addDays(new Date(), 90).toISOString(), status: 'Pending' },
     ]
   },
   {

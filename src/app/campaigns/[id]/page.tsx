@@ -10,7 +10,7 @@ import { Progress } from '@/components/ui/progress';
 import CountdownTimer from '@/components/countdown-timer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Wallet, Send, MessageSquare, Rss, Loader2, Gift, Vote, LandPlot } from 'lucide-react';
+import { Wallet, Send, MessageSquare, Rss, Loader2, Gift, Vote, LandPlot, Check, Map, CircleDot } from 'lucide-react';
 import CampaignActions from '@/components/campaign-actions';
 import SocialShareButtons from '@/components/social-share-buttons';
 import { Separator } from '@/components/ui/separator';
@@ -19,12 +19,13 @@ import { useWallet } from '@/contexts/wallet-context';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format, formatDistanceToNow, isPast } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import RewardTiers from '@/components/reward-tiers';
 import { DonateDialog } from '@/components/donate-dialog';
 import { RewardTier } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 
 export default function CampaignDetailsPage({ params }: { params: { id: string } }) {
@@ -87,6 +88,7 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
 
   const tabs = [
     { value: 'about', label: 'About', icon: null },
+    { value: 'roadmap', label: 'Roadmap', icon: <Map className="mr-2 h-4 w-4" /> },
     { value: 'rewards', label: 'Rewards', icon: <Gift className="mr-2 h-4 w-4" /> },
     { value: 'updates', label: 'Updates', icon: <Rss className="mr-2 h-4 w-4" /> },
     { value: 'comments', label: 'Comments', icon: <MessageSquare className="mr-2 h-4 w-4" /> },
@@ -135,6 +137,42 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
                   <p className="text-muted-foreground whitespace-pre-wrap">{campaign.description}</p>
                 </CardContent>
               </Card>
+            </TabsContent>
+            <TabsContent value="roadmap" className="mt-4">
+               <Card>
+                <CardHeader>
+                    <CardTitle>Project Roadmap</CardTitle>
+                    <CardDescription>Follow the project's journey and see how funds will be used.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    {campaign.milestones && campaign.milestones.length > 0 ? (
+                        <div className="space-y-8 relative pl-6 before:absolute before:inset-y-0 before:w-px before:bg-border before:left-3">
+                            {campaign.milestones.map((milestone, index) => (
+                                <div key={milestone.id} className="relative">
+                                    <div className={cn(
+                                        "absolute -left-[18px] top-1 flex h-6 w-6 items-center justify-center rounded-full",
+                                        milestone.status === 'Completed' ? 'bg-green-500' :
+                                        milestone.status === 'In Progress' ? 'bg-primary' : 'bg-muted'
+                                    )}>
+                                        {milestone.status === 'Completed' ? <Check className="h-4 w-4 text-white" /> : 
+                                         milestone.status === 'In Progress' ? <CircleDot className="h-4 w-4 text-white animate-pulse" /> :
+                                         <div className="h-3 w-3 rounded-full bg-border" />
+                                        }
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">Target: {format(new Date(milestone.targetDate), "PPP")}</p>
+                                    <h4 className="font-semibold text-lg mt-1">{milestone.title}</h4>
+                                    <p className="mt-1 text-muted-foreground">{milestone.description}</p>
+                                    <Badge variant="outline" className="mt-2">
+                                        {milestone.status}
+                                    </Badge>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-center text-muted-foreground py-8">This project has not defined a roadmap yet.</p>
+                    )}
+                </CardContent>
+               </Card>
             </TabsContent>
              <TabsContent value="rewards" className="mt-4">
               <RewardTiers campaign={campaign} onSelectTier={handleTierSelect} />
@@ -333,5 +371,3 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
     </>
   );
 }
-
-    
