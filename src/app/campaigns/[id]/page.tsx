@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { campaigns } from '@/lib/mock-data';
@@ -11,7 +10,7 @@ import { Progress } from '@/components/ui/progress';
 import CountdownTimer from '@/components/countdown-timer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Wallet, Send, MessageSquare, Rss, Loader2, Gift } from 'lucide-react';
+import { Wallet, Send, MessageSquare, Rss, Loader2, Gift, Vote, LandPlot } from 'lucide-react';
 import CampaignActions from '@/components/campaign-actions';
 import SocialShareButtons from '@/components/social-share-buttons';
 import { Separator } from '@/components/ui/separator';
@@ -25,6 +24,7 @@ import { useToast } from '@/hooks/use-toast';
 import RewardTiers from '@/components/reward-tiers';
 import { DonateDialog } from '@/components/donate-dialog';
 import { RewardTier } from '@/lib/types';
+import { Badge } from '@/components/ui/badge';
 
 
 export default function CampaignDetailsPage({ params }: { params: { id: string } }) {
@@ -45,6 +45,7 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
   const campaignImage = PlaceHolderImages.find((img) => img.id === campaign.image);
   const progress = Math.min((campaign.amountRaised / campaign.goal) * 100, 100);
   const isExpired = new Date(campaign.deadline) < new Date();
+  const goalReached = campaign.amountRaised >= campaign.goal;
   const isCreator = isConnected && address?.toLowerCase() === campaign.creator.toLowerCase();
 
   const truncateAddress = (addr: string) => `${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}`;
@@ -78,6 +79,23 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
     setIsDonateOpen(true);
   };
 
+  const mockProposals = [
+    { id: 1, title: 'Allocate 10% of Treasury to Marketing', status: 'Active', votesFor: 125, votesAgainst: 30 },
+    { id: 2, title: 'Partner with Eco-Friendly Packaging Supplier', status: 'Passed', votesFor: 250, votesAgainst: 15 },
+    { id: 3, title: 'Double the Server Capacity for Phase 2', status: 'Failed', votesFor: 50, votesAgainst: 180 },
+  ];
+
+  const tabs = [
+    { value: 'about', label: 'About', icon: null },
+    { value: 'rewards', label: 'Rewards', icon: <Gift className="mr-2 h-4 w-4" /> },
+    { value: 'updates', label: 'Updates', icon: <Rss className="mr-2 h-4 w-4" /> },
+    { value: 'comments', label: 'Comments', icon: <MessageSquare className="mr-2 h-4 w-4" /> },
+  ];
+
+  if (isExpired && goalReached) {
+    tabs.push({ value: 'governance', label: 'Governance', icon: <Vote className="mr-2 h-4 w-4" /> });
+  }
+
   return (
     <>
     <div className="container mx-auto max-w-6xl px-4 py-8">
@@ -101,17 +119,12 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
           </div>
           
           <Tabs defaultValue="about" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="about">About</TabsTrigger>
-               <TabsTrigger value="rewards">
-                <Gift className="mr-2 h-4 w-4" /> Rewards
-              </TabsTrigger>
-              <TabsTrigger value="updates">
-                <Rss className="mr-2 h-4 w-4" /> Updates
-              </TabsTrigger>
-              <TabsTrigger value="comments">
-                <MessageSquare className="mr-2 h-4 w-4" /> Comments
-              </TabsTrigger>
+             <TabsList className={`grid w-full grid-cols-${tabs.length}`}>
+                {tabs.map(tab => (
+                    <TabsTrigger key={tab.value} value={tab.value}>
+                        {tab.icon}{tab.label}
+                    </TabsTrigger>
+                ))}
             </TabsList>
             <TabsContent value="about" className="mt-4">
               <Card>
@@ -211,6 +224,53 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
                 </CardContent>
               </Card>
             </TabsContent>
+             <TabsContent value="governance" className="mt-4">
+                <Card>
+                  <CardHeader>
+                      <div className="flex items-center gap-4">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                            <LandPlot className="h-6 w-6 text-primary" />
+                        </div>
+                        <div>
+                            <CardTitle>Project DAO & Governance</CardTitle>
+                            <CardDescription>Backers of this project can vote on its future direction.</CardDescription>
+                        </div>
+                      </div>
+                  </CardHeader>
+                  <CardContent>
+                      <p className="mb-6 text-muted-foreground">
+                        This project is managed by a Decentralized Autonomous Organization (DAO). As a backer, you have voting rights to influence key decisions. Your voting power is proportional to your contribution.
+                      </p>
+                      
+                      <div className="space-y-4">
+                        <h3 className="font-semibold text-lg">Proposals</h3>
+                        {mockProposals.map((p) => (
+                            <Card key={p.id} className="p-4">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <h4 className="font-semibold">{p.title}</h4>
+                                        <div className="text-sm text-muted-foreground mt-1">
+                                            <span>For: {p.votesFor}</span> &bull; <span>Against: {p.votesAgainst}</span>
+                                        </div>
+                                    </div>
+                                    <Badge variant={p.status === 'Active' ? 'default' : p.status === 'Passed' ? 'secondary' : 'destructive'}>
+                                        {p.status}
+                                    </Badge>
+                                </div>
+                                {p.status === 'Active' && (
+                                    <div className="flex gap-2 mt-4">
+                                        <Button variant="outline" className="w-full">Vote For</Button>
+                                        <Button variant="outline" className="w-full">Vote Against</Button>
+                                    </div>
+                                )}
+                            </Card>
+                        ))}
+                      </div>
+
+                       <Button className="w-full mt-6" disabled>Create New Proposal (Coming Soon)</Button>
+                  </CardContent>
+                </Card>
+            </TabsContent>
           </Tabs>
         </div>
 
@@ -273,3 +333,5 @@ export default function CampaignDetailsPage({ params }: { params: { id: string }
     </>
   );
 }
+
+    
